@@ -12,6 +12,7 @@
 
 ```bash
 cd api && pnpm install
+pnpm db:generate                        # สร้าง Prisma client (ไม่ต้องมี DB) ถ้าข้ามจะเจอ error หา '../generated/prisma/client.js' ไม่เจอ
 cd ../web && pnpm install
 pnpm exec playwright install chromium   # ดาวน์โหลดเบราว์เซอร์สำหรับบทที่ 5 (ทำครั้งเดียว)
 ```
@@ -44,8 +45,9 @@ pnpm exec playwright install chromium   # ดาวน์โหลดเบร�
 เฉลยทั้งหมดอยู่ที่ branch `solution`
 
 ```bash
-git diff main..solution -- web/src/lib/expenses.test.ts   # ดูเฉพาะไฟล์ที่ติด
-git show solution:web/src/lib/expenses.test.ts            # ดูไฟล์เฉลยเต็ม
+git fetch origin solution                                       # ดึง branch เฉลยมาก่อน (ครั้งเดียว)
+git diff HEAD origin/solution -- web/src/lib/expenses.test.ts   # ดูเฉพาะไฟล์ที่ติด
+git show origin/solution:web/src/lib/expenses.test.ts           # ดูไฟล์เฉลยเต็ม
 ```
 
 หรือเปิดดูบน GitHub โดยเลือก branch `solution` ลองเขียนเองก่อนแล้วค่อยเทียบ จะได้ประโยชน์มากกว่า

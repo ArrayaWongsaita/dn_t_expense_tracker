@@ -163,4 +163,28 @@ describe('Expenses API (e2e)', () => {
       .set(stranger)
       .expect(404);
   });
+
+  it("does not let one user delete another user's expense", async () => {
+    const owner = await signupAndLogin('owner2@example.com');
+    const stranger = await signupAndLogin('stranger2@example.com');
+    const created = await api()
+      .post('/expenses')
+      .set(owner)
+      .send(expenseInput)
+      .expect(201);
+    const url = `/expenses/${created.body.id as string}`;
+
+    // คนแปลกหน้าลบไม่ได้ (404) และรายการของเจ้าของต้องยังอยู่
+    await api().delete(url).set(stranger).expect(404);
+    await api().get(url).set(owner).expect(200);
+  });
+
+  it("does not show another user's expenses in the list", async () => {
+    const owner = await signupAndLogin('owner3@example.com');
+    const stranger = await signupAndLogin('stranger3@example.com');
+    await api().post('/expenses').set(owner).send(expenseInput).expect(201);
+
+    const list = await api().get('/expenses').set(stranger).expect(200);
+    expect(list.body).toEqual([])
+  });
 });

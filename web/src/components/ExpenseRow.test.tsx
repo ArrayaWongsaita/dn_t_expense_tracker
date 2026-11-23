@@ -58,7 +58,8 @@ describe('ExpenseRow', () => {
     renderRow({ note: null })
 
     // queryByText คืน null ถ้าไม่เจอ (getByText จะ error)
-    expect(screen.queryByText('จ่ายเงินสด')).not.toBeInTheDocument()
+    // เช็คคำว่า 'null' ด้วย: ถ้าโค้ดพลาดเอา null ไปแสดงบนจอ เทสนี้จะจับได้
+    expect(screen.queryByText('null')).not.toBeInTheDocument()
   })
 
   it('calls onDelete with the expense id when delete is clicked', async () => {
