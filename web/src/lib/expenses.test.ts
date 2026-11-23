@@ -41,6 +41,12 @@ describe('toCents', () => {
     expect(result).toBe(1050)
   })
 
+  it('rounds correctly when the decimal cannot be stored exactly', () => {
+    // 19.99 * 100 ใน JavaScript ได้ 1998.9999999999998 (ไม่ใช่ 1999)
+    // toCents ต้องปัดให้ถูก ไม่ใช่ตัดทิ้ง
+    expect(toCents('19.99')).toBe(1999)
+  })
+
   it('adds cents without floating point drift', () => {
     // ใน JavaScript: 0.1 + 0.2 = 0.30000000000000004 (เพี้ยน!)
     // เราจึงเก็บเงินเป็นสตางค์ (จำนวนเต็ม) แล้วบวกกัน จะไม่เพี้ยน
